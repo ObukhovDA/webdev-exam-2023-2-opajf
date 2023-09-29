@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="container row my-3">
+        <div class="col-12 my-3">
+            <span class="fs-4">{{ book.author }}&nbsp;&laquo;{{ book.title }}&raquo;&nbsp;★{{ "%.2f" | format(book.rating or 0) }}</span>
+        </div>
+        <div class="col-6 my-3">
+            <img src="{{ book.cover.url }}" alt="{{ book.cover.id }}" class="img-fluid">
+        </div>
+        <div class="col-6 row">
+            <div class="my-3">
+                {% set genres = book.genres %}
+                {% if genres %}
+                <span>Жанры</span>
+                <ul class="list-group list-group-flush">
+                    {% for genre in genres %}
+                    <li class="list-group-item">{{ genre.title }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div>
+{% filter markdown %}
+{{ book.description | safe or ""}} 
+{% endfilter %}
+            </div>
+            <div class="text-center">
+                {% if current_user.can_write_review(book.id) %}
+                <a href="{{ url_for('reviews.create', book_id=book.id) }}" class="btn btn-primary">Оставить рецензию</a>
+                {% endif %}
+            </div>
+
+            <div class="d-flex justify-content-center row">
+                {% if reviews %}
+                <div class="text-center">
+                    <span>Рецензии пользователей:</span>
+                </div>
+                {% for review in reviews %}
+                <div class="col-6">
+                    <div class="border border-secondary p-3 rounded-3">
+                      <h5 class="card-title">{{ review.get_author_full_name() }}&nbsp;★{{ review.rating }}</h5>
+                      <h6 class="card-subtitle mb-2 text-muted">{{ review.created_at.strftime('%d.%m.%Y %H:%M') }}</h6>
+                      <p class="card-text">
+{% filter markdown %}
+{{ review.text | safe or ""}} 
+{% endfilter %}
+                      </p>
+                    </div>
+                  </div>
+                {% endfor %}
+
+                {% endif %}
+            </div>
+        </div>
+
+
+
+    </div>
+ 
+</div>
+{% endblock %}

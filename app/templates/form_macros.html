@@ -1,0 +1,73 @@
+{% macro form(book=None, creating=False) %}
+<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+
+<div class="container">
+    <form method="POST" action="{% if creating %} {{ url_for('books.create') }} {% else %} {{ url_for('books.edit',  book_id=book.id) }} {% endif %}" enctype="multipart/form-data">
+        <div class="container">
+            <div class="w-100 mb-2">
+                <label for="title">Название</label>
+                <input class="form-control" name="title" id="title"  value="{{ book.title or '' }}" >
+            </div>
+
+            <div class="w-100 mb-2">
+                <label for="description">Описание</label>
+                <textarea id="description" name="description" >{{ book.description or '' }}</textarea>
+            </div>
+
+            <div class="w-100 mb-2">
+                <label for="creation_year">Год написания</label>
+                <input class="form-control" type="number" max="2023" name="creation_year" id="creation_year"  value="{{ book.creation_year or '' }}" >
+            </div>
+
+            <div class="w-100 mb-2">
+                <label for="publisher">Издательство</label>
+                <input class="form-control" name="publisher" id="publisher"  value="{{ book.publisher or '' }}" >
+            </div>
+
+            <div class="w-100 mb-2"></div>
+                <label for="author">Автор</label>
+                <input class="form-control" name="author" id="author"  value="{{ book.author or '' }}" >
+            </div>
+
+
+            <div class="w-100 mb-2">
+                <label for="page_number">Количество страниц</label>
+                <input class="form-control" name="page_number" type="number" min="1" id="page_number"  value="{{ book.page_number or '' }}">
+            </div>
+
+
+            {% if creating %}
+                <div class="w-100 mb-2">
+                    <label for="cover">Обложка</label>
+                    <input class="form-control" type="file" name="cover" id="cover">
+                </div>
+            {% endif %}
+
+
+            <div id="w-100 mb-2">
+                
+                <label for="genre">Жанр(-ы)</label>
+
+                {% if genres %}
+                <select class="form-select" multiple name="genre" id="genre">
+                    {% for genre in genres %}
+                    <option value="{{ genre.id }}">{{ genre.title }}</option>
+                    {% endfor %}
+                {% endif %}
+                </select>
+            </div>
+
+            
+            <div class="mb-3 text-center">
+                <input type="submit" class="btn btn-dark" value="Сохранить">
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+<script>
+    const easyMDE = new EasyMDE({element: document.getElementById('description')});
+</script>
+
+{% endmacro %}

@@ -1,0 +1,41 @@
+{% macro book_index(book=None) %}
+<div class="card text-center">
+    <div class="card-header"> ★{{ "%.1f" | format(book.rating or 0) }} {{ book.title or "" }}</div>
+    <div class="card-body">
+      <img src="{{ book.cover.url }}" alt="{{ book.cover.id }}" class="img-fluid">
+      <h4 class="mt-3">{{ book.author }}</h4>
+      <p class="card-text">
+      {% filter markdown %}
+  {{ book.description | safe or ""}} 
+      {% endfilter %}
+</p>
+
+      <a href="{{ url_for('books.info', book_id=book.id) }}" class="btn btn-primary mt-3">Подробнее</a>
+      {% if current_user.is_authenticated %}
+        {% if current_user.is_moder() or current_user.is_admin() %}
+          <a href="{{ url_for('books.edit', book_id=book.id) }}" class="btn btn-primary mt-3">Редактировать</a>
+        {% endif %}
+        {% if current_user.is_admin() %}
+          <button type="button" class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="{{ url_for('books.delete', book_id=book.id) }}" data-title="{{ book.title }}"> Удалить </button>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div class="">
+
+    </div>
+    <div class="card-footer text-muted">
+      {% set genres = book.genres %}
+      {% if genres %}
+      <ul class="list-group">
+        {% for genre in genres %}
+        <li class="list-group-item">{{ loop.index }}. {{ genre.title }}</li>
+        {% endfor %}
+      </ul>
+
+      {% endif %}
+      <span>{{ book.creation_year or ""}}</span>
+    </div>
+  </div>
+
+
+{% endmacro %}
