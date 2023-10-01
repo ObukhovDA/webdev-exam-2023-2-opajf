@@ -89,7 +89,7 @@ def edit(book_id):
                 genres = request.form.getlist("genre")
                 
                 for genre in genres:
-                    db.session.add(Book_Genre(Book_Genre.book_id == book.id, Book_Genre.genre_id == genre))
+                    db.session.add(Book_Genre(book_id = book.id, genre_id = genre))
                 db.session.commit()
 
                 flash('Информация о книге успешно изменена','success')
@@ -113,7 +113,7 @@ def edit(book_id):
 def delete(book_id):
     try:
         book = db.session.execute(db.select(Book).filter(Book.id == book_id)).scalar()
-        if db.session.query(Cover).filter(Cover.id == book.cover_id).count() < 2:
+        if db.session.query(Book).filter(Book.cover_id == book.cover_id).count() < 2:
             cover = db.session.execute(db.select(Cover).filter(Cover.id == book.cover_id)).scalar()
             os.remove(
             os.path.join(app.config['UPLOAD_FOLDER'],
