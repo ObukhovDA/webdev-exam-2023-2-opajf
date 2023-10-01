@@ -6,40 +6,40 @@
         <div class="container">
             <div class="w-100 mb-2">
                 <label for="title">Название</label>
-                <input class="form-control" name="title" id="title"  value="{{ book.title or '' }}" >
+                <input class="form-control" name="title" id="title"  value="{{ book.title or '' }}" required>
             </div>
 
             <div class="w-100 mb-2">
                 <label for="description">Описание</label>
-                <textarea id="description" name="description" >{{ book.description or '' }}</textarea>
+                <textarea id="description" name="description">{{ book.description or '' }}</textarea>
             </div>
 
             <div class="w-100 mb-2">
                 <label for="creation_year">Год написания</label>
-                <input class="form-control" type="number" max="2023" name="creation_year" id="creation_year"  value="{{ book.creation_year or '' }}" >
+                <input class="form-control" type="number" max="2023" name="creation_year" id="creation_year"  value="{{ book.creation_year or '' }}" required>
             </div>
 
             <div class="w-100 mb-2">
                 <label for="publisher">Издательство</label>
-                <input class="form-control" name="publisher" id="publisher"  value="{{ book.publisher or '' }}" >
+                <input class="form-control" name="publisher" id="publisher"  value="{{ book.publisher or '' }}" required>
             </div>
 
             <div class="w-100 mb-2"></div>
                 <label for="author">Автор</label>
-                <input class="form-control" name="author" id="author"  value="{{ book.author or '' }}" >
+                <input class="form-control" name="author" id="author"  value="{{ book.author or '' }}" required>
             </div>
 
 
             <div class="w-100 mb-2">
                 <label for="page_number">Количество страниц</label>
-                <input class="form-control" name="page_number" type="number" min="1" id="page_number"  value="{{ book.page_number or '' }}">
+                <input class="form-control" name="page_number" type="number" min="1" id="page_number"  value="{{ book.page_number or '' }}" required>
             </div>
 
 
             {% if creating %}
                 <div class="w-100 mb-2">
                     <label for="cover">Обложка</label>
-                    <input class="form-control" type="file" name="cover" id="cover">
+                    <input class="form-control" type="file" name="cover" id="cover" required>
                 </div>
             {% endif %}
 
@@ -49,7 +49,7 @@
                 <label for="genre">Жанр(-ы)</label>
 
                 {% if genres %}
-                <select class="form-select" multiple name="genre" id="genre">
+                <select class="form-select" multiple name="genre" id="genre" required>
                     {% for genre in genres %}
                     <option value="{{ genre.id }}">{{ genre.title }}</option>
                     {% endfor %}
