@@ -16,7 +16,7 @@ def init_login_manager(app):
     login_manager.init_app(app)
 
 def load_user(user_id):
-    user = db.session.execute(db.select(User).filter(User.id == user_id)).scalar()
+    user = db.session.execute(db.select(User).filter_by(id = user_id)).scalar()
     return user
 
 def check_rights(action):
@@ -42,7 +42,7 @@ def login():
             password = request.form.get('password')
             remember_me = request.form.get('remember_me') == 'on'
             if login and password:
-                user = db.session.execute(db.select(User).filter(User.login == login)).scalar()
+                user = db.session.execute(db.select(User).filter_by(login = login)).scalar()
                 if user and user.check_password(password):
                     login_user(user, remember=remember_me)
                     flash('Вы успешно аутентифицированы.', 'success')
