@@ -37,7 +37,7 @@ def create():
                 db.session.add(book)
                 db.session.commit()
 
-                genres = request.form.getlist("genre")
+                genres = request.form.getlist('genre')
 
                 for genre in genres:
                     db.session.add(Book_Genre(book_id = book.id,genre_id = genre))

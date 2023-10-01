@@ -27,9 +27,12 @@
 {% endfilter %}
             </div>
             <div class="text-center">
+                {% if current_user.is_authenticated %}
                 {% if current_user.can_write_review(book.id) %}
                 <a href="{{ url_for('reviews.create', book_id=book.id) }}" class="btn btn-primary">Оставить рецензию</a>
                 {% endif %}
+                {% endif %}
+
             </div>
 
             <div class="d-flex justify-content-center row">

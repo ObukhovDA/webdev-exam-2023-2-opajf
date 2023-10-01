@@ -24,11 +24,11 @@ def check_rights(action):
         @wraps(func)
         def wrapper(*args, **kwargs):
             user = None
-            user_id = kwargs.get("user_id")
+            user_id = kwargs.get('user_id')
             if user_id:
                 user = load_user(user_id)
             if not current_user.can(action, user):
-                flash("Недостаточно прав для доступа к странице", "warning")
+                flash('Недостаточно прав для доступа к данной странице', 'warning')
                 return redirect(url_for('index'))
             return func(*args, **kwargs)
         return wrapper
@@ -51,7 +51,7 @@ def login():
             flash('Введены неверные логин и/или пароль.', 'danger')
         return render_template('auth/login.html')
     except:
-        flash('Ошибка базы данных, попробуйте позже', 'danger')
+        flash('Ошибка, попробуйте позже', 'danger')
         return redirect(url_for('index'))
 
 @bp.route('/logout')
@@ -61,6 +61,6 @@ def logout():
         logout_user()
         return redirect(url_for('index'))
     except:
-        flash('Ошибка базы данных, попробуйте позже', 'danger')
+        flash('Ошибка, попробуйте позже', 'danger')
         return redirect(url_for('index'))
 

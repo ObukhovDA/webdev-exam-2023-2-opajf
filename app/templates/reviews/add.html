@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
-<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 <div class="container">
     <form action="{{ url_for('reviews.create', book_id=book.id) }}" method="post" class="mt-4">
         <div class="mb-2">
@@ -21,6 +20,8 @@
         <button type="submit" class="btn btn-primary">Добавить</button>
     </form>
 </div>
+
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 
 <script>
     const easyMDE = new EasyMDE({element: document.getElementById('text')});
